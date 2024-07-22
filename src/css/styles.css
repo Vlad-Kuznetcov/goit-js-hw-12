@@ -1,6 +1,6 @@
 @import url('./reset.css');
 @import url('./gallery.css');
-  
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -18,44 +18,9 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.search-form {
-  margin: 15px 0;
-}
-
-#gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  width: 80%;
-  margin-bottom: 20px;
-}
-
-.gallery-item {
-  position: relative;
-}
-
-.gallery-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .loader {
@@ -67,4 +32,29 @@ body {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }

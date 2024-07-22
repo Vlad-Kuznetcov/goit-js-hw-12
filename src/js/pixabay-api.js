@@ -1,11 +1,15 @@
+import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+import { renderImg } from './render-functions';
 
-export async function searchImages(value) {
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import SimpleLightbox from 'simplelightbox';
+
+export function searchImages(value) {
   const form = document.querySelector('.form');
   form.insertAdjacentHTML('afterend', '<div id="loader" class="loader"></div>');
   const params = new URLSearchParams({
-    key: '45057307-b447de7416eadb33be54d4a0d',
+    key: '44959261-ea439a2adbf8f7e5770dfe1a3',
     q: value,
     image_type: 'photo',
     orientation: 'horizontal',
@@ -13,9 +17,10 @@ export async function searchImages(value) {
     per_page: 20,
   });
   const baseUrl = 'https://pixabay.com/api/';
-  const response = await fetch(`${baseUrl}?${params}`);
-  if (!response.ok) {
-    throw new Error(response.status);
-  }
-  return await response.json();
+  return fetch(`${baseUrl}?${params}`).then(response => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.json();
+  });
 }
