@@ -19,7 +19,6 @@ refs.form.addEventListener('submit', e => {
 
   if (refs.input.value.trim()) {
     const result = getImages(refs.input.value);
-    // console.log(result);
     result
       .then(response => {
         if (response.total !== 0) {
