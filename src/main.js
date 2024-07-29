@@ -1,58 +1,47 @@
+import { getImages } from './js/pixabay-api';
+import { renderImg } from './js/render-functions';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import { searchImages } from './js/pixabay-api';
-import { renderImg } from './js/render-functions';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+// console.log('hello main');
 
 const refs = {
-  btnSubEl: document.querySelector('.btn-search'),
-  formEl: document.querySelector('.form'),
+  btnSearch: document.querySelector('.btn-search'),
+  form: document.querySelector('.form'),
   input: document.querySelector('input'),
   ul: document.querySelector('ul'),
-  loader: document.querySelector('.loader'),
 };
 
-refs.formEl.addEventListener('submit', evt => {
-  evt.preventDefault();
+refs.form.addEventListener('submit', e => {
+  e.preventDefault();
   refs.ul.innerHTML = '';
 
   if (refs.input.value.trim()) {
-    showLoader();
-
-    const res = searchImages(refs.input.value.trim());
-    res
+    const result = getImages(refs.input.value);
+    // console.log(result);
+    result
       .then(response => {
         if (response.total !== 0) {
           renderImg(response.hits);
           let gallery = new SimpleLightbox('.gallery a');
-          showLoader();
           gallery.refresh();
         } else {
           iziToast.error({
-            message: 'Image is not found',
+            message:
+              'SSorry, there are no images matching your search query. Please try again!',
             position: 'topRight',
           });
         }
       })
       .catch(error => console.log(error))
       .finally(() => {
-        hideLoader();
-        // clearGallery();
         refs.input.value = '';
       });
   } else {
     iziToast.error({
-      message: 'Please fill in the input field',
+      message: 'Enter value',
       position: 'topRight',
     });
   }
 });
-
-function showLoader() {
-  refs.loader.style.display = 'block';
-}
-
-function hideLoader() {
-  refs.loader.style.display = 'none';
-}

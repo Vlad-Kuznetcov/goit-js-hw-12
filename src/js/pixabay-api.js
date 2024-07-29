@@ -1,26 +1,40 @@
-import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import { renderImg } from './render-functions';
-
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import SimpleLightbox from 'simplelightbox';
+// console.log('hello api');
 
-export function searchImages(value) {
+export function getImages(img) {
   const form = document.querySelector('.form');
-  form.insertAdjacentHTML('afterend', '<div id="loader" class="loader"></div>');
+  form.insertAdjacentHTML('afterend', '<div class="loader"></div>');
+
+  const BASE_URL = 'https://pixabay.com/api/';
   const params = new URLSearchParams({
-    key: '44959261-ea439a2adbf8f7e5770dfe1a3',
-    q: value,
+    key: '45057307-b447de7416eadb33be54d4a0d',
+    q: img,
     image_type: 'photo',
     orientation: 'horizontal',
-    safesearch: true,
+    safesearch: 'true',
     per_page: 20,
   });
-  const baseUrl = 'https://pixabay.com/api/';
-  return fetch(`${baseUrl}?${params}`).then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
+
+  const url = `${BASE_URL}?${params}`;
+
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
+    .then(data => {
+      return data;
+    })
+    .catch(error => {
+      console.error('Error fetching images:', error);
+    })
+    .finally(() => {
+      const loader = document.querySelector('.loader');
+      if (loader) {
+        loader.remove();
+      }
+    });
 }
