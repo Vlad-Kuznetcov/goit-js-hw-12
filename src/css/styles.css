@@ -44,3 +44,11 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.load {
+  margin-top: 10px;
+}
+
+.hiddenBtn {
+  display: none;
+}

@@ -1,5 +1,4 @@
 const gallery = document.querySelector('.gallery');
-// console.log('hello render');
 
 function imgTemplate({
   webformatURL,
@@ -33,6 +32,5 @@ function imgsTemplate(arr) {
 
 export function renderImg(hits) {
   const markup = imgsTemplate(hits);
-  //   console.log(markup);
-  gallery.innerHTML = markup;
+  gallery.innerHTML += markup;
 }

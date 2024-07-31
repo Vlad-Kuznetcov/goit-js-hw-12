@@ -1,40 +1,32 @@
+import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// console.log('hello api');
+import axios from 'axios';
 
-export function getImages(img) {
-  const form = document.querySelector('.form');
-  form.insertAdjacentHTML('afterend', '<div class="loader"></div>');
+const BASE_URL = 'https://pixabay.com/api/';
+const API_KEY = '45057307-b447de7416eadb33be54d4a0d';
+const STATUS_BAD_REQUEST = 400;
 
-  const BASE_URL = 'https://pixabay.com/api/';
-  const params = new URLSearchParams({
-    key: '45057307-b447de7416eadb33be54d4a0d',
-    q: img,
+export async function getImages(query, page) {
+  const params = {
+    key: API_KEY,
+    q: query,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: 'true',
-    per_page: 20,
-  });
+    per_page: 15,
+    page: page,
+  };
 
-  const url = `${BASE_URL}?${params}`;
-
-  return fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    })
-    .then(data => {
-      return data;
-    })
-    .catch(error => {
-      console.error('Error fetching images:', error);
-    })
-    .finally(() => {
-      const loader = document.querySelector('.loader');
-      if (loader) {
-        loader.remove();
-      }
-    });
+  try {
+    const response = await axios.get(BASE_URL, { params: params });
+    return response.data;
+  } catch (error) {
+    if (error.response.status === STATUS_BAD_REQUEST) {
+      iziToast.error({
+        message: `Request error: ${error}`,
+        position: 'topRight',
+      });
+    }
+  }
 }
