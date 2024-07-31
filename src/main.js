@@ -16,11 +16,10 @@ const refs = {
 let page = 1;
 let query = '';
 let gallery = new SimpleLightbox('.gallery a');
-
+refs.loadBtn.classList.add('hiddenBtn');
 refs.form.addEventListener('submit', async e => {
   try {
     refs.loadBtn.classList.remove('hiddenBtn');
-
     e.preventDefault();
     query = refs.input.value.trim();
     if (query === '') {
@@ -42,14 +41,14 @@ refs.form.addEventListener('submit', async e => {
         title: 'No results',
         message: 'No images found. Please try a different query.',
       });
-      refs.loadBtn.classList.add('hidden');
+      refs.loadBtn.classList.add('hiddenBtn');
     } else {
       renderImg(result.hits);
       gallery.refresh();
       if (result.hits.length < 15) {
-        refs.loadBtn.classList.add('hidden');
+        refs.loadBtn.classList.add('hiddenBtn');
       } else {
-        refs.loadBtn.classList.remove('hidden');
+        refs.loadBtn.classList.remove('hiddenBtn');
       }
     }
   } catch (error) {
